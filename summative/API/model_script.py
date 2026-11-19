@@ -1,33 +1,28 @@
-import joblib
+import pickle
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
-from pathlib import Path
+from pathlib import Path 
 
 # Path to the models declaration 
 BASE_DIR = Path(__file__).resolve().parent
-MODEL_PATH = BASE_DIR / "best_model.pkl"
-FEATURE_COLUMNS_PATH = BASE_DIR / "feature_columns.pkl"
+MODEL_PATH = BASE_DIR / "../linear_regression/best_model.pkl"
+FEATURE_COLUMNS_PATH = BASE_DIR / "../linear_regression/feature_columns.pkl"
 
-# Load the saved model using joblib (fixes the UnpicklingError)
-try:
-    model = joblib.load(MODEL_PATH)
-except Exception as e:
-    print(f"Error loading model: {e}")
-    model = None
+# Load the saved Random Forest model as was the best performing model
+with open(MODEL_PATH, "rb") as f:
+    model = pickle.load(f)
 
-# Load training feature columns using joblib
-try:
-    TRAINING_COLUMNS = joblib.load(FEATURE_COLUMNS_PATH)
-except Exception as e:
-    print(f"Error loading feature columns: {e}")
-    TRAINING_COLUMNS = []
+# Load training feature columns
+with open(FEATURE_COLUMNS_PATH, "rb") as f:
+    TRAINING_COLUMNS = pickle.load(f)
 
-# Function for Prediction
+# function for Prediction
 def predict_delay(cost: float, prof_fees: float, const_costs: float, lat: float, lon: float, contractor_count: int, province: str, dept: str, sector: str, nature: str, funding: str) -> float:
     """
-    Predict project delay using the saved model.
+    Predict project delay days using the saved best performing model.
     """
-    # 1. Create a DataFrame with the single row of input
+
+    # Build the full DataFrame with exactly the columns expected
     input_data = pd.DataFrame([{
         "estimated_total_project_cost": cost,
         "total_professional_fees": prof_fees,
@@ -42,13 +37,13 @@ def predict_delay(cost: float, prof_fees: float, const_costs: float, lat: float,
         "primary_funding_source": funding
     }])
 
-    # 2. Apply One-Hot Encoding (same as training)
+    # Transform categorical inputs into one-hot encoded features
     input_encoded = pd.get_dummies(input_data)
-
-    # 3. Reindex to match the exact training columns (fills missing dummy columns with 0)
+    
+    # Populate all other required features to match the model’s training data
     input_final = input_encoded.reindex(columns=TRAINING_COLUMNS, fill_value=0)
 
-    # 4. Predict
+    # Predict the user input
     predicted_value = model.predict(input_final)
 
     return float(predicted_value[0])
@@ -58,7 +53,6 @@ def predict_delay(cost: float, prof_fees: float, const_costs: float, lat: float,
 def retrain_model(df: pd.DataFrame):
     global model
 
-    # Expected columns for infrastructure data
     expected_columns = [
         "delay_days", "estimated_total_project_cost", "total_professional_fees", 
         "total_construction_costs", "latitude", "longitude", "province", 
@@ -71,24 +65,24 @@ def retrain_model(df: pd.DataFrame):
 
     df = df.dropna().reset_index(drop=True)
 
-    # Encode and prepare data
     numerical_data = pd.get_dummies(df)
+
     X = numerical_data.drop("delay_days", axis=1)
     y = numerical_data["delay_days"]
 
-    # Align with original training columns
     X = X.reindex(columns=TRAINING_COLUMNS, fill_value=0)
 
     new_model = RandomForestRegressor(n_estimators=100, random_state=42)
     new_model.fit(X, y)
     
-    # Overwrite the saved model using joblib
-    joblib.dump(new_model, MODEL_PATH)
+    # Save as I overwrite new retrained model result
+    with open(MODEL_PATH, "wb") as f:
+        pickle.dump(new_model, f)
 
     model = new_model
 
     return {
-        "message": "Model retrained successfully on Infrastructure data",
+        "message": "Model retrained successfully",
         "rows_used": len(df),
         "features_used": X.shape[1]
     }

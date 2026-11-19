@@ -6,7 +6,6 @@ from model_script import predict_delay, retrain_model
 from pydantic import BaseModel, Field
 from fastapi.middleware.cors import CORSMiddleware
 
-# Define the exact fields required by the model, with strict validation
 class PredictionInput(BaseModel):
     cost: float = Field(..., ge=0, description="Estimated total project cost in Rand")
     prof_fees: float = Field(..., ge=0, description="Total professional fees")
@@ -34,17 +33,19 @@ app = FastAPI(
 # Allow Credentials: Set to True to allow cookies/auth headers if needed later.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080", "https://your-flutter-app.onrender.com"], 
-    allow_origin_regex=r"http://localhost:\d+", # Allows any localhost port (helpful for Flutter web debug)
+    allow_origins=["https://infrastructure-delay-api.onrender.com"],
+    allow_origin_regex=r"http://localhost:\d+",
     allow_credentials=True,
     allow_methods=["GET", "POST"],
-    allow_headers=["*"], 
+    allow_headers=["*"],
 )
 
+# First endpoint responding to the root URL
 @app.get("/")
 def home():
-    return {"message": "API is running successfully. Use /predict to get delay predictions and /retrain to retrain the model."}
+    return {"message": "API is running successfully. Use /predict to get delay predictions and /retrain to retrain the model with new data."}
 
+# Predict delay endpoint
 @app.post("/predict")
 def predict(input_data: PredictionInput):
     try:
@@ -66,6 +67,7 @@ def predict(input_data: PredictionInput):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
+# Retrain the new uploaded dataset endpoint
 @app.post("/retrain")
 async def retrain(file: UploadFile = File(...)):
     try:
@@ -76,5 +78,6 @@ async def retrain(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+# Run the API with uvicorn
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
