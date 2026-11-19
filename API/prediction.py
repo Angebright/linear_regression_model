@@ -26,14 +26,19 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS Configuration
+# --- CORS Configuration ---
+# Allow Origins: Local Flutter web debug (http://localhost:8080) and the deployed Render frontend.
+# Restrict: We do not use the wildcard "*" to prevent unauthorized websites from making requests.
+# Allow Methods: We only allow GET (for docs) and POST (for predict/retrain).
+# Allow Headers: Allow all headers to ensure JSON content-type passes through.
+# Allow Credentials: Set to True to allow cookies/auth headers if needed later.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://infrastructure-delay-api.onrender.com"], # Change this to your actual Render URL later
-    allow_origin_regex=r"http://localhost:\d+",
+    allow_origins=["http://localhost:8080", "https://your-flutter-app.onrender.com"], 
+    allow_origin_regex=r"http://localhost:\d+", # Allows any localhost port (helpful for Flutter web debug)
     allow_credentials=True,
     allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type"],
+    allow_headers=["*"], 
 )
 
 @app.get("/")
