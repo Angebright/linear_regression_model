@@ -116,23 +116,30 @@ class _InfrastructureDelayHomePageState
     });
 
     try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/predict'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "cost": double.parse(_costController.text.trim()),
-          "prof_fees": double.parse(_profFeesController.text.trim()),
-          "const_costs": double.parse(_constCostsController.text.trim()),
-          "lat": double.parse(_latController.text.trim()),
-          "lon": double.parse(_lonController.text.trim()),
-          "contractor_count": int.parse(_contractorCountController.text.trim()),
-          "province": _provinceController.text.trim(),
-          "dept": _deptController.text.trim(),
-          "sector": _sectorController.text.trim(),
-          "nature": _natureController.text.trim(),
-          "funding": _fundingController.text.trim(),
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('$baseUrl/predict'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({
+              "cost": double.parse(_costController.text.trim()),
+              "prof_fees": double.parse(_profFeesController.text.trim()),
+              "const_costs": double.parse(_constCostsController.text.trim()),
+              "lat": double.parse(_latController.text.trim()),
+              "lon": double.parse(_lonController.text.trim()),
+              "contractor_count": int.parse(
+                _contractorCountController.text.trim(),
+              ),
+              // CRITICAL: Format strings to exactly match training data casing
+              "province": _provinceController.text.trim(),
+              "dept": _deptController.text.trim(),
+              "sector": _sectorController.text.trim(),
+              "nature": _natureController.text.trim(),
+              "funding": _fundingController.text.trim(),
+            }),
+          )
+          .timeout(
+            const Duration(seconds: 60),
+          ); // Waits up to 60s for Render to wake up
 
       final decoded = jsonDecode(response.body);
 
@@ -153,7 +160,7 @@ class _InfrastructureDelayHomePageState
     } catch (e) {
       setState(() {
         _predictionIsError = true;
-        _resultMessage = 'Connection Error: Could not reach the API.';
+        _resultMessage = 'Connection Error: $e';
       });
     } finally {
       if (mounted) {
