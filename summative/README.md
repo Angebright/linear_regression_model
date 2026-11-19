@@ -85,13 +85,13 @@ The prediction is handled by two main files:
 ```
 
 You can test the API using Swagger UI at: https://infrastructure-delay-api.onrender.com/docs (mentioned above)
-Video Demo
+## Video Demo
 Watch the YouTube video demo here
 
-How to Run the Mobile App (InfraDelay)
+# How to Run the Mobile App (InfraDelay)
 The mobile app is located in the summative/flutter_app directory. Follow these steps to run it:
 
-Prerequisites
+# Prerequisites
 Install Flutter SDK: Download and install Flutter from flutter.dev
 
 Android Studio or VS Code: Install an IDE with Flutter support
@@ -101,15 +101,15 @@ Android Emulator or Physical Device: For testing on Android
 Installation Steps
 Navigate to the app directory:
 
-bash
+```
 cd summative/flutter_app
 Get dependencies:
 
-bash
+```
 flutter pub get
 Run the app:
 
-bash
+```
 flutter run
 Using the App
 Launch the app - The InfraDelay app will open with a dark-themed interface
@@ -120,7 +120,7 @@ Get Prediction - Tap the "Predict" button to get your prediction
 
 View Result - The predicted delay in days will be displayed
 
-Optional: Retrain the Model
+## Optional: Retrain the Model
 The app also allows you to retrain the model with new data:
 
 Tap the "Upload CSV" button
@@ -129,8 +129,8 @@ Select a CSV file with the required format (columns: delay_days, estimated_total
 
 Tap "Retrain Model" to retrain with the new data
 
-Files Structure
-text
+## Files Structure
+```text
 linear_regression_model/
 ├── README.md
 ├── summative/
