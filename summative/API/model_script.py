@@ -22,6 +22,18 @@ def predict_delay(cost: float, prof_fees: float, const_costs: float, lat: float,
     Predict project delay days using the saved best performing model.
     """
 
+    # 1. FIX: Standardize the text to match the exact casing used in training.
+    # This prevents different predictions if the user types lowercase in the app.
+    province_clean = province.strip().title()
+    # Fix the unique casing for KwaZulu-Natal
+    if province_clean == "Kwazulu-Natal":
+        province_clean = "KwaZulu-Natal"
+        
+    dept_clean = dept.strip().title()
+    sector_clean = sector.strip().title()
+    nature_clean = nature.strip().title()
+    funding_clean = funding.strip().title()
+
     # Build the full DataFrame with exactly the columns expected
     input_data = pd.DataFrame([{
         "estimated_total_project_cost": cost,
@@ -30,11 +42,11 @@ def predict_delay(cost: float, prof_fees: float, const_costs: float, lat: float,
         "latitude": lat,
         "longitude": lon,
         "contractor_project_count": contractor_count,
-        "province": province,
-        "department": dept,
-        "sector": sector,
-        "nature_of_investment": nature,
-        "primary_funding_source": funding
+        "province": province_clean,
+        "department": dept_clean,
+        "sector": sector_clean,
+        "nature_of_investment": nature_clean,
+        "primary_funding_source": funding_clean
     }])
 
     # Transform categorical inputs into one-hot encoded features
