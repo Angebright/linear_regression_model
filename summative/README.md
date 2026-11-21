@@ -76,11 +76,10 @@ The prediction is handled by two main files:
   "dept": "Education",
   "sector": "Education",
   "nature": "Upgrading",
-  "funding": "Equitable Share"
+    "funding": "Equitable Share"
 }
 
- Example Response
-
+ ### Example Response
 {
   "predicted_delay_days": 12.5
 }
