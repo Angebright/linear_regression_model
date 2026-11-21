@@ -79,12 +79,14 @@ The prediction is handled by two main files:
     "funding": "Equitable Share"
 }
 
+
+```
  ### Example Response
-{
+    
+   {
   "predicted_delay_days": 12.5
 }
-```
-
+ 
 You can test the API using Swagger UI at: https://infrastructure-delay-api.onrender.com/docs (mentioned above)
 ## Video Demo
 Watch the YouTube video demo here
