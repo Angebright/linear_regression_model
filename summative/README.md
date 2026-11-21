@@ -98,36 +98,31 @@ Android Studio or VS Code: Install an IDE with Flutter support
 
 Android Emulator or Physical Device: For testing on Android
 
-Installation Steps
-Navigate to the app directory:
+### Installation Steps
 
-```
-cd summative/flutter_app
-Get dependencies:
+1. **Navigate to the app directory**:
+   ```bash
+   cd summative/flutter_app
+   flutter pub get
+   flutter run
 
+  ## Using the App
+**Launch the app:** The InfraDelay app will open with a dark-themed interface.
 
-flutter pub get
-Run the app:
+**Enter Project Details:** Input the 11 variables (cost, fees, construction costs, coordinates, contractor count, province, etc.).
 
+**Get Prediction:** Tap the **"Predict"** button to get your prediction.
 
-flutter run
-Using the App
-Launch the app - The InfraDelay app will open with a dark-themed interface
-
-**Enter Project Details:** Input the 11 variables (cost, fees, construction costs, coordinates, contractor count, province, etc.)
-
-**Get Prediction:** Tap the "Predict" button to get your prediction
-
-**View Result:** The predicted delay in days will be displayed
+**View Result:** The predicted delay in days will be displayed.
 
 ## Optional: Retrain the Model
 The app also allows you to retrain the model with new data:
 
-Tap the "Upload CSV" button
+Tap the **"Choose dataset"** button.
 
-Select a CSV file with the required format (columns: delay_days, estimated_total_project_cost, total_professional_fees, total_construction_costs, latitude, longitude, province, department, sector, nature_of_investment, primary_funding_source, contractor_project_count)
+Select a CSV file with the required format (columns: delay_days, estimated_total_project_cost, total_professional_fees, total_construction_costs, latitude, longitude, province, department, sector, nature_of_investment, primary_funding_source, contractor_project_count).
 
-Tap "Retrain Model" to retrain with the new data
+Tap "Train model" to retrain with the new data.
 
 ## Files Structure
 ```text
