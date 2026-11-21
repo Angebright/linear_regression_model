@@ -107,13 +107,13 @@ Android Emulator or Physical Device: For testing on Android
    flutter run
 
   ## Using the App
-**Launch the app:** The InfraDelay app will open with a dark-themed interface.
+1. **Launch the app:** The InfraDelay app will open with a dark-themed interface.
 
-**Enter Project Details:** Input the 11 variables (cost, fees, construction costs, coordinates, contractor count, province, etc.).
+2. **Enter Project Details:** Input the 11 variables (cost, fees, construction costs, coordinates, contractor count, province, etc.).
 
-**Get Prediction:** Tap the **"Predict"** button to get your prediction.
+3. **Get Prediction:** Tap the **"Predict"** button to get your prediction.
 
-**View Result:** The predicted delay in days will be displayed.
+4. **View Result:** The predicted delay in days will be displayed.
 
 ## Optional: Retrain the Model
 The app also allows you to retrain the model with new data:
