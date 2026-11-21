@@ -41,7 +41,7 @@ A publicly available API endpoint is provided for predictions:
 
 And next select **/predict** endpoint to try it out and return the prediction.
 
-_**#### NB:** You may need to wait for some seconds (<60 seconds) for a URL to return back online, because I used a free basic plan on the Render hosting platform!!_
+_**NB:** You may need to wait for some seconds (<60 seconds) for a URL to return back online, because I used a free basic plan on the Render hosting platform!!_
 
 ### How It Works
 
@@ -89,7 +89,7 @@ The prediction is handled by two main files:
  
 You can test the API using Swagger UI at: https://infrastructure-delay-api.onrender.com/docs (mentioned above)
 ## Video Demo
-video demo: https://youtu.be/hW1qstfqWVk
+video demo: https://youtu.be/hW1qstfqWVk?si=jSUzOsqojyn2jevG
 
 # How to Run the Mobile App (InfraDelay)
 The mobile app is located in the summative/flutter_app directory. Follow these steps to run it:
