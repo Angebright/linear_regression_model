@@ -41,7 +41,7 @@ A publicly available API endpoint is provided for predictions:
 
 And next select **/predict** endpoint to try it out and return the prediction.
 
-_**#### NB:** You may need to wait for some seconds (<60 seconds) for a URL to return back online, because I used a free basic plan on the Render hosting platform!!_
+_**NB:** You may need to wait for some seconds (<60 seconds) for a URL to return back online, because I used a free basic plan on the Render hosting platform!!_
 
 ### How It Works
 
