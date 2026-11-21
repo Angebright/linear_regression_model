@@ -79,6 +79,8 @@ The prediction is handled by two main files:
   "funding": "Equitable Share"
 }
 
+ Example Response
+
 {
   "predicted_delay_days": 12.5
 }
